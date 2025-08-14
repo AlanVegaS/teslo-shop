@@ -13,15 +13,16 @@ export const Sidebar = () => {
     return (
         <div >
             {/**Background black */}
-
             {
                 isSideMenuOpen &&
-                <div className="fixed top-0 left-0 bg-black w-screen h-screen z-10 opacity-30" ></div>
+                <div className="fixed top-0 left-0 bg-black w-screen h-screen z-10 opacity-30" />
             }
             {/**Blur background */}
             {
                 isSideMenuOpen &&
-                <div className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-xs" ></div>
+                <div className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-xs" 
+                    onClick={() => closeMenu()}
+                />
             }
             {/**Sidebar */}
             <nav 

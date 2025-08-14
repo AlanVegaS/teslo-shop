@@ -1,4 +1,8 @@
-import { notFound } from "next/navigation";
+//import { notFound } from "next/navigation";
+
+import { ProductGrid } from "@/components/products/product-grid/ProductGrid"
+import { Title } from "@/components/ui/title/Title"
+import { initialData } from "@/seed/seed"
 
 interface Props {
     params:{
@@ -6,15 +10,19 @@ interface Props {
     }
 }
 
-export default function CategoryPage({params}: Props) {
+export default async function CategoryPage({params}: Props) {
 
-    const { id } = params
+    const { id: category } = await params
+    const products = initialData.products
+    const filteredProducts = products.filter(product => product.gender === category)
+    
 
-    if ( id === 'kids') notFound()
+    //if ( id === 'kids') notFound()
 
     return (
         <div>
-            <h1>CategoryPage { id }</h1>
+            <Title title={category} />
+            <ProductGrid products={filteredProducts} />
         </div>
     );
 }
