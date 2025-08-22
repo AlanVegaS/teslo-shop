@@ -3,6 +3,8 @@ import { initialData } from "@/seed/seed"
 import { notFound } from "next/navigation"
 import SizeSelector from '../../../../components/product/size-selector/SizeSelector';
 import { QuantitySelector } from '../../../../components/quantity-selector/QuantitySelector';
+import { ProductMobileSlideshow } from '../../../../components/slideshow/ProductMobileSlideshow';
+import { ProductSlideshow } from '../../../../components/slideshow/ProductSlideshow';
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -16,10 +18,11 @@ export default async function Product({ params }: Props) {
     if (!product) notFound()
 
     return (
-        <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3">
+        <div className="md:mt-5 mb-20 grid grid-cols-1 md:grid-cols-3">
             {/**Slideshow */}
             <div className="col-span-1 md:col-span-2">
-                hola
+                <ProductMobileSlideshow images={product.images} className="block md:hidden"/>
+                <ProductSlideshow images={product.images} className="hidden md:block"/>
             </div>
             {/**Details */}
             <div className="col-span-1 px-5">
