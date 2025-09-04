@@ -1,5 +1,6 @@
 import { TopMenu } from '../../components/ui/top-menu/TopMenu';
 import { Sidebar } from '../../components/ui/sidebar/Sidebar';
+import { Footer } from '../../components/ui/footer/Footer';
 
 export default function ShopLayout({ children }: {
     children: React.ReactNode;
@@ -11,6 +12,7 @@ export default function ShopLayout({ children }: {
             <div className="px-0 md:px-5">
                 {children}
             </div>
+            <Footer/>
         </main>
     );
 }
