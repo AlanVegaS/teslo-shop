@@ -5,6 +5,7 @@ import { ProductGrid } from '../../components/products/product-grid/ProductGrid'
 const products = initialData.products
 
 export default function Home() {
+
   return (
     <>
       <Title title="Shop" />
