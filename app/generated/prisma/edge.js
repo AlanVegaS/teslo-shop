@@ -158,7 +158,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\alanv\\OneDrive\\Documentos\\React\\tesloshop\\app\\generated\\prisma",
+      "value": "C:\\Users\\alanv\\OneDrive\\Documentos\\React\\teslo-shop\\app\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -172,7 +172,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\alanv\\OneDrive\\Documentos\\React\\tesloshop\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\alanv\\OneDrive\\Documentos\\React\\teslo-shop\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
