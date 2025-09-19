@@ -1,5 +1,5 @@
 import { PrismaClient } from "../app/generated/prisma"
-import { initialData } from "@/seed/seed"
+import { initialData } from "@/app/seed/seed" 
 
 const prisma = new PrismaClient()
 //Run seed: npx prisma db seed
