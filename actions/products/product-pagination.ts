@@ -1,11 +1,25 @@
 'use server'
-import { PrismaClient } from "@/app/generated/prisma" 
+import { PrismaClient } from "@/app/generated/prisma"
 
 const prisma = new PrismaClient()
 
-export const getPaginetedProductsWithImages = async() => {
+interface PaginnationOption {
+    page?: number
+    take?: number
+}
+
+export const getPaginetedProductsWithImages = async ({
+    page = 1,
+    take = 12
+}: PaginnationOption) => {
+
+    if(isNaN(Number(page))) page = 1
+    if(page < 1) page = 1
+
     try {
         const products = await prisma.product.findMany({
+            take: take,
+            skip: (page -1) * take,
             include: {
                 ProductImage: {
                     take: 2,
@@ -15,8 +29,16 @@ export const getPaginetedProductsWithImages = async() => {
                 }
             }
         })
-        console.log(products)
+
+        return {
+            currentPage: 1,
+            totalPages: 10,
+            products: products.map(product => ({
+                ...product,
+                images: product.ProductImage.map(image => image.url)
+            }))
+        }
     } catch (error) {
-        console.log(error)
+        throw new Error('No se pudo cargar los productos')
     }
 }
