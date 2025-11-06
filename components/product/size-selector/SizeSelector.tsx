@@ -1,4 +1,4 @@
-import { ValidSizes } from '@/src/interfaces/product.interface'; 
+import { ValidSizes } from '@/interfaces/product.interface'; 
 import clsx from 'clsx';
 
 

@@ -1,10 +1,14 @@
+export const revalidate = 604800//7 days
+export const dynamic = "force-static";
+
 import { titleFont } from "@/config/fonts"
-import { initialData } from "@/app/seed/seed"; 
 import { notFound } from "next/navigation"
 import SizeSelector from '../../../../components/product/size-selector/SizeSelector';
 import { QuantitySelector } from '../../../../components/quantity-selector/QuantitySelector';
 import { ProductMobileSlideshow } from '../../../../components/slideshow/ProductMobileSlideshow';
 import { ProductSlideshow } from '../../../../components/slideshow/ProductSlideshow';
+import { getProductBySlug } from "@/actions/products/get-product-by-slug";
+import { StockLabel } from '../../../../components/stock-label/StockLabel';
 
 interface Props {
     params: Promise<{ slug: string }>
@@ -13,7 +17,7 @@ interface Props {
 export default async function Product({ params }: Props) {
 
     const { slug } = await params
-    const product = initialData.products.find(product => product.slug === slug)
+    const product = await getProductBySlug(slug)
 
     if (!product) notFound()
 
@@ -30,6 +34,7 @@ export default async function Product({ params }: Props) {
                     {product.title}
                 </h1>
                 <p className="text-lg mb-5">${product.price}</p>
+                <StockLabel slug={slug}/>
                 {/**Size */}
                 <SizeSelector availableSizes={product.sizes} selectSize={product.sizes[0]} />
                 {/**Quantity */}
