@@ -1,13 +1,15 @@
-import { ValidSizes } from '@/interfaces/product.interface'; 
+import { ValidSizes } from '@/interfaces/product.interface';
 import clsx from 'clsx';
 
 
 interface Props {
-    selectSize: ValidSizes
-    availableSizes: ValidSizes[]
+    availableSizes: ValidSizes[],
+    onSizeChanged: (size: ValidSizes) => void,
+    sizeSelected?: ValidSizes
 }
 
-export default function SizeSelector({ selectSize, availableSizes }: Props) {
+export default function SizeSelector({ availableSizes, onSizeChanged, sizeSelected }: Props) {
+
     return (
         <div className="my-5">
             <h3 className="font-bold mb-4">A vailable sizes</h3>
@@ -15,12 +17,13 @@ export default function SizeSelector({ selectSize, availableSizes }: Props) {
                 {
                     availableSizes.map(size =>
                         <span className={clsx(
-                            "font-bold mr-3 text-lg cursor-pointer rounded-sm hover:underline hover:bg-gray-200",
+                            "font-bold mr-3 text-lg cursor-pointer rounded-sm hover:underline hover:bg-gray-300",
                             {
-                                'underline': size === selectSize
+                                'underline bg-gray-200': size === sizeSelected
                             }
                         )}
                             key={size}
+                            onClick={() => onSizeChanged(size)}
                         >
                             {size}
                         </span>

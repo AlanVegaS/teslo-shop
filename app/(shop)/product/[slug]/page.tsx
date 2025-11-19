@@ -9,13 +9,33 @@ import { ProductMobileSlideshow } from '../../../../components/slideshow/Product
 import { ProductSlideshow } from '../../../../components/slideshow/ProductSlideshow';
 import { getProductBySlug } from "@/actions/products/get-product-by-slug";
 import { StockLabel } from '../../../../components/stock-label/StockLabel';
+import { Metadata, ResolvingMetadata } from "next";
+import AddToCart from './ui/AddToCart';
 
 interface Props {
     params: Promise<{ slug: string }>
 }
 
-export default async function Product({ params }: Props) {
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const { slug } = await params
 
+    const product = await getProductBySlug(slug)
+
+    return {
+        title: product?.title ?? "Product doen't exist",
+        description: product?.description ?? "",
+        openGraph: {
+            title: product?.title ?? "Product doen't exist",
+            description: product?.description ?? "",
+            images: [`/products/${product?.images[1]}`]
+        }
+    }
+}
+
+export default async function Product({ params }: Props) {
     const { slug } = await params
     const product = await getProductBySlug(slug)
 
@@ -25,8 +45,8 @@ export default async function Product({ params }: Props) {
         <div className="md:mt-5 mb-20 grid grid-cols-1 md:grid-cols-3">
             {/**Slideshow */}
             <div className="col-span-1 md:col-span-2">
-                <ProductMobileSlideshow images={product.images} className="block md:hidden"/>
-                <ProductSlideshow images={product.images} className="hidden md:block"/>
+                <ProductMobileSlideshow images={product.images} className="block md:hidden" />
+                <ProductSlideshow images={product.images} className="hidden md:block" />
             </div>
             {/**Details */}
             <div className="col-span-1 px-5">
@@ -34,16 +54,10 @@ export default async function Product({ params }: Props) {
                     {product.title}
                 </h1>
                 <p className="text-lg mb-5">${product.price}</p>
-                <StockLabel slug={slug}/>
-                {/**Size */}
-                <SizeSelector availableSizes={product.sizes} selectSize={product.sizes[0]} />
-                {/**Quantity */}
-                <QuantitySelector quantity={1} />
-                {/**Button */}
-                <button className="btn-primary my-5">
-                    Add to cart
-                </button>
-                {/**Description */}
+                <StockLabel slug={slug} />
+
+                <AddToCart sizes={product.sizes} />
+
                 <h3 className="font-bold text-sm">Description</h3>
                 <p className="font-light">{product.description}</p>
             </div>
