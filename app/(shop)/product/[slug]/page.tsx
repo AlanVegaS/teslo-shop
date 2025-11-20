@@ -3,13 +3,11 @@ export const dynamic = "force-static";
 
 import { titleFont } from "@/config/fonts"
 import { notFound } from "next/navigation"
-import SizeSelector from '../../../../components/product/size-selector/SizeSelector';
-import { QuantitySelector } from '../../../../components/quantity-selector/QuantitySelector';
 import { ProductMobileSlideshow } from '../../../../components/slideshow/ProductMobileSlideshow';
 import { ProductSlideshow } from '../../../../components/slideshow/ProductSlideshow';
 import { getProductBySlug } from "@/actions/products/get-product-by-slug";
 import { StockLabel } from '../../../../components/stock-label/StockLabel';
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import AddToCart from './ui/AddToCart';
 
 interface Props {
@@ -18,7 +16,6 @@ interface Props {
 
 export async function generateMetadata(
     { params }: Props,
-    parent: ResolvingMetadata
 ): Promise<Metadata> {
     const { slug } = await params
 

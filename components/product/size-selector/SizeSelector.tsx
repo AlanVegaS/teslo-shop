@@ -1,14 +1,14 @@
 import { ValidSizes } from '@/interfaces/product.interface';
 import clsx from 'clsx';
 
-
 interface Props {
     availableSizes: ValidSizes[],
     onSizeChanged: (size: ValidSizes) => void,
-    sizeSelected?: ValidSizes
+    sizeSelected?: ValidSizes,
+    showAdvertence: boolean
 }
 
-export default function SizeSelector({ availableSizes, onSizeChanged, sizeSelected }: Props) {
+export default function SizeSelector({ availableSizes, onSizeChanged, sizeSelected, showAdvertence }: Props) {
 
     return (
         <div className="my-5">
@@ -29,6 +29,7 @@ export default function SizeSelector({ availableSizes, onSizeChanged, sizeSelect
                         </span>
                     )
                 }
+                {showAdvertence && <p className="pt-0.5 text-red-600 fade-in">!You must select a size!</p>}
             </div>
         </div>
     )
