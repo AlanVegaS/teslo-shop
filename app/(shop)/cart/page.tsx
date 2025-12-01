@@ -34,7 +34,6 @@ export default function CartPage() {
                                     <div>
                                         <p>{product.title}</p>
                                         <p>${product.price}</p>
-                                        <QuantitySelector quantity={3} />
                                         <button className='underline mt-3'>Remove</button>
                                     </div>
                                 </div>

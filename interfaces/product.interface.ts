@@ -3,7 +3,7 @@ export type ValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 export type ValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats';
 
 export interface Product {
-    //id: string
+    id: string
     description: string;
     images: string[];
     inStock: number;
@@ -22,6 +22,6 @@ export interface CartProduct {
     title: string;
     price: number;
     quantity: number;
-    size: ValidSizes;
+    size?: ValidSizes;
     image: string;
 }

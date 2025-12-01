@@ -2,15 +2,17 @@
 
 import SizeSelector from "@/components/product/size-selector/SizeSelector"
 import { QuantitySelector } from "@/components/quantity-selector/QuantitySelector"
-import { ValidSizes } from "@/interfaces/product.interface"
+import { useCartStore } from "@/store/cart/cart-store"
 import { useState } from "react"
+import type { CartProduct, Product, ValidSizes } from "@/interfaces/product.interface"
 
 interface Props {
-    sizes : ValidSizes[]
+    product: Product
 }
 
-export default function AddToCart({sizes}:Props) {
+export default function AddToCart({product}:Props) {
 
+    const addProductToCart = useCartStore(state => state.addProductToCart)
 
     const [sizeSelected, setSizeSelected] = useState<ValidSizes|undefined>()
     const [quantitySelected, setQuantitySelected] = useState(1)
@@ -27,16 +29,32 @@ export default function AddToCart({sizes}:Props) {
     }
 
     const addProductsCart = () => {
-        const product = { size: sizeSelected, quantity: quantitySelected}
-        if(!sizeSelected)
+        if(!sizeSelected){
             setShowAdvertence(true)
+            return
+        }
+
+        const cartProduct: CartProduct = {
+            id: product.id,
+            slug: product.slug,
+            title: product.title,
+            price: product.price,
+            quantity: quantitySelected,
+            size: sizeSelected,
+            image: product.images[0]
+        }
+
+        addProductToCart(cartProduct)
+        setSizeSelected(undefined)
+        setQuantitySelected(1)
+        setShowAdvertence(false)
     }
 
 
 
     return (
         <>
-            <SizeSelector availableSizes={sizes} onSizeChanged={onSizeChange} sizeSelected={sizeSelected} showAdvertence={showAdvertence}/>
+            <SizeSelector availableSizes={product.sizes} onSizeChanged={onSizeChange} sizeSelected={sizeSelected} showAdvertence={showAdvertence}/>
             <QuantitySelector  quantitySelected={quantitySelected} onQuantityChange={onQuantityChange} />
             <button className="btn-primary my-5"
                 onClick={() => addProductsCart()}

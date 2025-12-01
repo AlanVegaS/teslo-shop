@@ -32,7 +32,7 @@ export async function generateMetadata(
     }
 }
 
-export default async function Product({ params }: Props) {
+export default async function ProductShow({ params }: Props) {
     const { slug } = await params
     const product = await getProductBySlug(slug)
 
@@ -53,7 +53,7 @@ export default async function Product({ params }: Props) {
                 <p className="text-lg mb-5">${product.price}</p>
                 <StockLabel slug={slug} />
 
-                <AddToCart sizes={product.sizes} />
+                <AddToCart product={product}/>
 
                 <h3 className="font-bold text-sm">Description</h3>
                 <p className="font-light">{product.description}</p>
