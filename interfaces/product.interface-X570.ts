@@ -22,6 +22,6 @@ export interface CartProduct {
     title: string;
     price: number;
     quantity: number;
-    size: ValidSizes;
+    size?: ValidSizes;
     image: string;
 }

@@ -21,10 +21,20 @@ export const getProductBySlug = async (slug: string) => {
 
         if(!product) return null
 
-        return {
-            ...product,
-            images: product.ProductImage.map( image => image.url)
+        const productReturn = {
+            id: product.id,
+            slug: slug,
+            title: product.title,
+            price: product.price,
+            sizes: product.sizes,
+            images: product.ProductImage.map(image => image.url),
+            description: product.description,
+            gender: product.gender,
+            inStock: product.inStock,
+            tags: product.tags
         }
+
+        return productReturn
     } catch (error) {
         console.log(error)
         throw new Error('Error to get product by slug')
