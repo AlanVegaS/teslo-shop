@@ -7,7 +7,7 @@ import { useState } from "react"
 import type { CartProduct, Product, ValidSizes } from "@/interfaces/product.interface"
 
 interface Props {
-    product: Product
+    product: Product,
 }
 
 export default function AddToCart({product}:Props) {
@@ -18,14 +18,15 @@ export default function AddToCart({product}:Props) {
     const [quantitySelected, setQuantitySelected] = useState(1)
     const [showAdvertence, setShowAdvertence] = useState(false)
 
-    const onSizeChange = (size:ValidSizes) => {
-        setSizeSelected(size)
-        setShowAdvertence(false)
-    }
     const onQuantityChange = (quantity:number) => {
         const newQuantity = quantitySelected + quantity
         if (newQuantity < 1 || newQuantity > 10) return
         setQuantitySelected(newQuantity)
+    }
+
+    const onSizeChange = (size:ValidSizes) => {
+        setSizeSelected(size)
+        setShowAdvertence(false)
     }
 
     const addProductsCart = () => {
@@ -55,7 +56,7 @@ export default function AddToCart({product}:Props) {
     return (
         <>
             <SizeSelector availableSizes={product.sizes} onSizeChanged={onSizeChange} sizeSelected={sizeSelected} showAdvertence={showAdvertence}/>
-            <QuantitySelector  quantitySelected={quantitySelected} onQuantityChange={onQuantityChange} />
+            <QuantitySelector onQuantityChange={onQuantityChange} quantitySelected={quantitySelected}/>
             <button className="btn-primary my-5"
                 onClick={() => addProductsCart()}
             >
