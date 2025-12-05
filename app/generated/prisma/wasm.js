@@ -116,6 +116,16 @@ exports.Prisma.ProductImageScalarFieldEnum = {
   productId: 'productId'
 };
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  emailVerified: 'emailVerified',
+  password: 'password',
+  role: 'role',
+  image: 'image'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -124,6 +134,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.Size = exports.$Enums.Size = {
   XS: 'XS',
@@ -142,10 +157,16 @@ exports.Gender = exports.$Enums.Gender = {
   unisex: 'unisex'
 };
 
+exports.Role = exports.$Enums.Role = {
+  admin: 'admin',
+  user: 'user'
+};
+
 exports.Prisma.ModelName = {
   Category: 'Category',
   Product: 'Product',
-  ProductImage: 'ProductImage'
+  ProductImage: 'ProductImage',
+  User: 'User'
 };
 /**
  * Create the Client
@@ -186,7 +207,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -195,13 +215,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Size {\n  XS\n  S\n  M\n  L\n  XL\n  XXL\n  XXXL\n}\n\nenum Gender {\n  men\n  women\n  kid\n  unisex\n}\n\nmodel Category {\n  id      String    @id @default(uuid())\n  name    String    @unique\n  Product Product[]\n}\n\nmodel Product {\n  id          String   @id @default(uuid())\n  title       String\n  description String\n  inStock     Int\n  price       Float    @default(0)\n  sizes       Size[]   @default([])\n  slug        String   @unique\n  tags        String[] @default([])\n  gender      Gender\n\n  // Relaciones\n\n  category     Category       @relation(fields: [categoryId], references: [id])\n  categoryId   String\n  ProductImage ProductImage[]\n\n  @@index([gender])\n}\n\nmodel ProductImage {\n  id  Int    @id @default(autoincrement())\n  url String\n\n  product   Product @relation(fields: [productId], references: [id])\n  productId String\n}\n",
-  "inlineSchemaHash": "7373d0e3ac87345a10c8b51227808faa882675f4ed57c5eab7a355fe3738ff8b",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Size {\n  XS\n  S\n  M\n  L\n  XL\n  XXL\n  XXXL\n}\n\nenum Gender {\n  men\n  women\n  kid\n  unisex\n}\n\nenum Role {\n  admin\n  user\n}\n\nmodel Category {\n  id      String    @id @default(uuid())\n  name    String    @unique\n  Product Product[]\n}\n\nmodel Product {\n  id          String   @id @default(uuid())\n  title       String\n  description String\n  inStock     Int\n  price       Float    @default(0)\n  sizes       Size[]   @default([])\n  slug        String   @unique\n  tags        String[] @default([])\n  gender      Gender\n\n  // Relaciones\n\n  category     Category       @relation(fields: [categoryId], references: [id])\n  categoryId   String\n  ProductImage ProductImage[]\n\n  @@index([gender])\n}\n\nmodel ProductImage {\n  id  Int    @id @default(autoincrement())\n  url String\n\n  product   Product @relation(fields: [productId], references: [id])\n  productId String\n}\n\nmodel User {\n  id            String    @id @default(uuid())\n  email         String    @unique\n  name          String\n  emailVerified DateTime?\n  password      String\n  role          Role      @default(user)\n  image         String?\n}\n",
+  "inlineSchemaHash": "e187ea9fa7813f023d82a8164a6cdb7879b3782081fa7750b48b0c72f5f86fe8",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Category\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"inStock\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"sizes\",\"kind\":\"enum\",\"type\":\"Size\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToProduct\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ProductImage\",\"kind\":\"object\",\"type\":\"ProductImage\",\"relationName\":\"ProductToProductImage\"}],\"dbName\":null},\"ProductImage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"ProductToProductImage\"},{\"name\":\"productId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Category\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"inStock\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"sizes\",\"kind\":\"enum\",\"type\":\"Size\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToProduct\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ProductImage\",\"kind\":\"object\",\"type\":\"ProductImage\",\"relationName\":\"ProductToProductImage\"}],\"dbName\":null},\"ProductImage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"ProductToProductImage\"},{\"name\":\"productId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

@@ -3,12 +3,13 @@
 import Link from "next/link"
 import { useActionState } from "react";
 import { authenticate } from "@/actions/auth/login";
+import { useFormStatus } from "react-dom";
+import clsx from "clsx";
 
 export const LoginForm = () => {
 
     const [state, dispatch] = useActionState(authenticate, undefined);
-
-    console.log(state);
+    const { pending } = useFormStatus();
 
     return (
         <form action={dispatch}>
@@ -23,9 +24,20 @@ export const LoginForm = () => {
                     className="px-5 py-2 border bg-gray-200 rounded mb-5"
                     name="password"
                     type="password" />
+
+                {state === 'Something went wrong.' && (
+                    <div className="text-red-500 text-sm mb-2">
+                        Invalid credentials!
+                    </div>
+                )}
                 <button
                     type="submit"
-                    className="btn-primary">
+                    className={clsx({
+                        "btn-primary": !pending,
+                        "btn-disabled": pending
+                    })}
+                    disabled={pending}
+                >
                     Ingresar
                 </button>
                 {/* divisor l ine */}
