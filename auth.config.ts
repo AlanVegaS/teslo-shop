@@ -12,6 +12,20 @@ export const authConfig = {
     signIn: '/auth/login',
     newUser: '/auth/register'
   },
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.data = user;
+      }
+      return token;
+    },
+    session: ({ session, token }) => {
+      if (token) {
+        session.user = token.data as any;
+      }
+      return session;
+    }
+  },
   providers: [
     Credentials({
       async authorize(credentials) {

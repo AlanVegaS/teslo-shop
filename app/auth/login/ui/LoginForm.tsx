@@ -5,11 +5,19 @@ import { useActionState } from "react";
 import { authenticate } from "@/actions/auth/login";
 import { useFormStatus } from "react-dom";
 import clsx from "clsx";
+import { useEffect } from "react";
 
 export const LoginForm = () => {
 
     const [state, dispatch] = useActionState(authenticate, undefined);
     const { pending } = useFormStatus();
+    console.log(state)
+
+    useEffect(() => {
+        if (state === 'Success') {
+            window.location.href = '/';
+        }
+    }, [state])
 
     return (
         <form action={dispatch}>
