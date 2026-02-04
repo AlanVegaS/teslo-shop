@@ -26,3 +26,23 @@ export async function authenticate(
     throw error;
   }
 }
+
+export const login = async(email: string, password: string) => {
+  try {
+    await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+    return {
+      ok: true,
+      message: 'Usuario logueado correctamente'
+    }
+
+  } catch (error) {
+    return {
+      ok: false,
+      message: 'Error al iniciar sesión'
+    }
+  }
+}
